@@ -15,10 +15,10 @@ export const categories = [
 ]
 
 export const productVariants = [
-    "Red",
-    "Blue",
-    "Green",
-    "Black",
-    "Yellow",
-    "Gray",
+    "red",
+    "blue",
+    "green",
+    "black",
+    "yellow",
+    "gray",
 ]

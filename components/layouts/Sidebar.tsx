@@ -14,10 +14,10 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded rounded-xl shadow-sm row-span-3">
+    <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:row-span-1 md:col-span-3 lg:row-span-3 lg:col-span-1">
       <div className="my-4 px-4">
         <h3 className="text-lg font-bold mb-1">Categories</h3>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-row sm:flex-row md:flex-row lg:flex-col gap-2 flex-wrap">
           {categories.map((categorie, index) => (
             <span key={index} className="flex flex-row items-center gap-1">
               <input type="checkbox" />
@@ -48,12 +48,9 @@ const Sidebar: React.FC = () => {
       </div>
       <div className="my-4 px-4">
         <h3 className="text-lg font-bold mb-1">Product Variants</h3>
-        <div className="flex flex-col gap-2">
-          {productVariants.map((variant, index) => (
-            <span key={index} className="flex flex-row items-center gap-1">
-              <input type="checkbox" />
-              <p className="text-sm"> {variant} </p>
-            </span>
+        <div className="flex flex-row  gap-2 flex-wrap">
+          {productVariants.map((color, index) => (           
+            <span key={index} className={color === "black" || color === "white"? `bg-${color} w-6 h-6 rounded-full` : `bg-${color}-500 w-6 h-6 rounded-full`}> </span>         
           ))}
         </div>
         <hr className="border-t border-gray-200 w_full mx-auto my-4" />
