@@ -57,7 +57,7 @@ export const products = [
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         categorie : "Electronics",
         price : "129.99",
-        variants : ["red", "blue", "green", "black", "yellow", "gray"],
+        variants : ["red","black", "yellow"],
         image : "/assets/images/photo4.jpg",
     },
     {
@@ -66,7 +66,7 @@ export const products = [
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         categorie : "Electronics",
         price : "129.99",
-        variants : ["red", "blue", "green", "black", "yellow", "gray"],
+        variants : ["red", "blue",  "gray"],
         image : "/assets/images/photo5.jpg",
     },
     {
@@ -75,7 +75,7 @@ export const products = [
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         categorie : "Electronics",
         price : "129.99",
-        variants : ["red", "blue", "green", "black", "yellow", "gray"],
+        variants : ["red", "gray"],
         image : "/assets/images/photo6.jpg",
     },
 ]
