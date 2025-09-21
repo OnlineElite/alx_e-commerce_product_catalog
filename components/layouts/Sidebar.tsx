@@ -50,13 +50,13 @@ const Sidebar: React.FC = () => {
         <h3 className="text-lg font-bold mb-1">Product Variants</h3>
         <div className="flex flex-row  gap-2 flex-wrap">
           {productVariants.map((color, index) => (           
-            <span key={index} className={color === "black" || color === "white"? `bg-${color} w-6 h-6 rounded-full` : `bg-${color}-500 w-6 h-6 rounded-full`}> </span>         
+            <span key={index} className={color == "black"? `bg-${color} w-6 h-6 rounded-full` : `bg-${color}-500 w-6 h-6 rounded-full`}> </span>         
           ))}
         </div>
         <hr className="border-t border-gray-200 w_full mx-auto my-4" />
       </div>
       <div className="my-4 px-4 ">
-        <Button title="Apply Filters" action={handleApplyFilters} />
+        <Button backColor="secondColor" title="Apply Filters" action={handleApplyFilters} />
       </div>
     </div>
   );

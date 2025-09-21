@@ -1,3 +1,4 @@
+import lineClamp from '@tailwindcss/line-clamp'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,11 +10,12 @@ module.exports = {
     extend : {
       colors : {
         footerColor : "#2d3436",
-        mainColor : "#f8f9fa",
-        registerButton : "#ff5252"
+        backColor : "#f8f9fa",
+        secondColor : "#ff5252",
+        mainColor : "#4a6de5"
       }
     }
   },
-  plugins: [],
+  plugins: [ lineClamp ],
 }
 
