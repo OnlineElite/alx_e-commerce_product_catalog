@@ -10,6 +10,7 @@ module.exports = {
       colors : {
         footerColor : "#2d3436",
         mainColor : "#f8f9fa",
+        registerButton : "#ff5252"
       }
     }
   },

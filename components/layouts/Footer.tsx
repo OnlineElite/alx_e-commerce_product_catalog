@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
 
     return(
         <div className="bg-footerColor flex flex-col items-center justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mt-8 gap-6 px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mt-8 gap-6 px-4">
                 <div className="text-white text-sm">
                     <h3 className="text-lg font-bold mb-1">About Us</h3>
                     <hr className="border border-blue-500 w-12 mb-4  "/>
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
                 </div>
             </div>
             <div className="text-white text-sm w-full flex flex-col items-center justify-center mb-6">
-                <hr className="border-t border-slate-500 w-full max-w-5xl my-8"/>
+                <hr className="border-t border-slate-500 w-full max-w-7xl my-8"/>
                 <p>© 2025 ShopSphere. All rights reserved.</p>
             </div>
         </div>
