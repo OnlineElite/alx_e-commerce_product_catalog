@@ -6,13 +6,13 @@ const Sidebar: React.FC = () => {
   const [priceRange, setPriceRange] = useState(1000);
 
   const colorClasses: Record<string, string> = {
-  red: "bg-red-500",
-  blue: "bg-blue-500",
-  green: "bg-green-500",
-  black: "bg-black",
-  yellow: "bg-yellow-500",
-  gray: "bg-gray-500",
-};
+    red: "bg-red-500",
+    blue: "bg-blue-500",
+    green: "bg-green-500",
+    black: "bg-black",
+    yellow: "bg-yellow-500",
+    gray: "bg-gray-500",
+  };
 
   const handlePriceRange = (value: string) => {
     setPriceRange(Number(value));
@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
         <h3 className="text-lg font-bold mb-1">Product Variants</h3>
         <div className="flex flex-row  gap-2 flex-wrap">
           {productVariants.map((color, index) => (           
-            <span key={index} className={`${colorClasses[color]} w-6 h-6 rounded-full`}> </span>         
+            <span key={index} className={`${colorClasses[color]} w-5 h-5 rounded-full`}> </span>         
           ))}
         </div>
         <hr className="border-t border-gray-200 w_full mx-auto my-4" />

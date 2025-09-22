@@ -1,6 +1,13 @@
 import { ShoppingCart, ShoppingBag, Search } from "lucide-react";
+import { useState } from "react"
+import AuthForm from "@/components/common/AuthForm"
 
 const Header: React.FC = () => {
+
+  const [showLoginForm, setShowLoginForm] = useState(false)
+  const [showRegisterForm, setShowRegisterForm] = useState(false)
+
+
   return (
     <header className="bg-mainColor shadow-md sticky top-0  px-2 py-4 z-50">
       <div className="flex flex-col md:flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto w-full gap-4 px-4">
@@ -31,8 +38,8 @@ const Header: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
-              <button className="text-white px-4 border border-white rounded  py-1">Login</button>
-              <button className="text-white px-4 bg-secondColor rounded  py-1">Register</button>
+              <button className="text-white px-4 border border-white rounded  py-1" onClick={()=> setShowLoginForm(true)}>Login</button>
+              <button className="text-white px-4 bg-secondColor rounded  py-1" onClick={()=> setShowRegisterForm(true)}>Register</button>
             </div>
           </div>
           {/* Navigation bar */}
@@ -46,8 +53,17 @@ const Header: React.FC = () => {
             </ul>
           </div>
         </div>
-        
       </div>
+      {showRegisterForm && (
+        <div className="absolute top-0 left-0 w-[100vw] h-[100vh] flex items-center justify-center bg-black/50 z-100">
+          <AuthForm handleClose={() => setShowRegisterForm(false)} mode="register" />
+        </div>
+      )}
+      {showLoginForm && (
+        <div className="absolute top-0 left-0 w-[100vw] h-[100vh] flex items-center justify-center bg-black/50 z-100">
+          <AuthForm handleClose={() => setShowLoginForm(false)} mode="login" />
+        </div>
+      )}
     </header>
   );
 };

@@ -20,3 +20,8 @@ export interface ProductProps {
     variants : string[];
     image : string;
 }
+
+export interface AuthFormProps {
+    handleClose : ()=> void;
+    mode: "login" | "register";
+}
