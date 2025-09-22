@@ -1,22 +1,22 @@
 # ALX E-commerce Front-end
 
-## Set Up the Project
+# Set Up the Project
 
-## 1. Create a Next.js project:
+## Create a Next.js project:
 
 `create-next-app@latest .` // Using . sets the current folder as the project name. You can also specify a different project name instead of . if you prefer
 
-## 2. Install Tailwind CSS and dependencies :
+## Install Tailwind CSS and dependencies :
 
 `npm install -D tailwindcss@3 postcss autoprefixer` // we used @3 (version 3) because version 4 is not compatible with nextJs 15 version
 
-## 3. Initialize Tailwind CSS
+## Initialize Tailwind CSS
 
 This will create tailwind.config.js and postcss.config.js.
 
 `npx tailwindcss init -p`
 
-## 4. Configure tailwind.config.js
+## Configure tailwind.config.js
 
 Update the content array so Tailwind can scan your files: // tailwind.config.js
 
@@ -33,7 +33,7 @@ extend: {},
 plugins: [],
 }
 
-## 5. Add Tailwind to your CSS
+## Add Tailwind to your CSS
 
 Open your global CSS file (globals.css in app/ or styles/globals.css in pages/) and add:
 
@@ -41,7 +41,7 @@ Open your global CSS file (globals.css in app/ or styles/globals.css in pages/) 
 @tailwind components;
 @tailwind utilities;
 
-## 6. Configure postcss.config.mjs
+## Configure postcss.config.mjs
 
 add tailwindcss and autoprefixer plagins:
 
@@ -54,7 +54,7 @@ autoprefixer : {},
 
 export default config;
 
-## 7. Set up project structure :
+## Set up project structure :
 
 Create these folders and files in the root directory:
 
@@ -124,7 +124,7 @@ AlX_E-COMMERCE_PRODUCT_CATALOG/
 ├── README.md                 # Project documentation
 ├── tailwind.config.js        # Tailwind CSS configuration
 └── tsconfig.json             # TypeScript configuration
-## 8. Install Icons lebrary :
+## Install Icons lebrary :
 
 Installation :
 `npm install lucide-react`
@@ -145,7 +145,25 @@ return (
 You can control size and color directly using Tailwind classes.
 Official site: `https://lucide.dev`
 
-## 9. Start your development server
+## State Management with Redux
+
+### Installing Redux
+First, install Redux and its related packages:
+
+`npm install redux react-redux @reduxjs/toolkit`
+`npm install @types/react-redux`
+
+### Setting Up the Redux Store
+Create a store directory inside the src directory to organize Redux-related files.
+
+src/
+├── store/
+│   ├── index.ts
+│   ├── rootReducer.ts
+│   └── slices/
+│       └── userSlice.ts
+
+## Start your development server
 
 This will start the live development server:
 
@@ -154,13 +172,13 @@ This will start the live development server:
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## 10. Deploy on Vercel
+## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
 
-## 11. Learn More
+## Learn More
 
 To learn more about Next.js, take a look at the following resources:
 

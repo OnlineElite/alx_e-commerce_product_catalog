@@ -1,7 +1,9 @@
 import { products } from "@/constants"
 import Card from "@/components/common/Card"
+import { useState } from 'react'
 
 const ProductList: React.FC = () => {
+
 
     return(
         <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:col-span-2 md:row-span-1 lg:col-span-3 ">

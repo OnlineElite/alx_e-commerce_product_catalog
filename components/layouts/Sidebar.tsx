@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
     <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:row-span-3 md:col-span-1 lg:row-span-3 lg:col-span-1">
       <div className="my-6 px-4">
         <h3 className="text-lg font-bold mb-3">Categories</h3>
-        <div className="flex flex-row sm:flex-row md:flex-row lg:flex-col gap-4 flex-wrap">
+        <div className="flex flex-row sm:flex-row md:flex-col lg:flex-col gap-2 flex-wrap">
           {categories.map((categorie, index) => (
             <span key={index} className="flex flex-row items-center gap-2">
               <input type="checkbox" className=" scale-125"/>

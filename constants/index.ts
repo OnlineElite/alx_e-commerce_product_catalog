@@ -7,11 +7,14 @@ export const sortingOptions = [
 ]
 
 export const categories = [
-    "Electronics",
-    "Clothing",
-    "Home & Kitchen",
-    "Books",
-    "Sport & Fitness",
+    "Laptop",
+    "Smart TV",
+    "Watch",
+    "Camera",
+    "Phone",
+    "Casque",
+    "Tablet",
+    "Printer",
 ]
 
 export const productVariants = [
