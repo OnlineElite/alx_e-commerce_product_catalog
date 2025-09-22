@@ -27,7 +27,7 @@ const Header: React.FC = () => {
                 placeholder="Search for products..."
                 className="rounded-l py-2 w-full placeholder-gray-500 px-2 text-sm focus:outline-none"
               />
-              <div className="bg-registerButton rounded-r px-2 py-2">
+              <div className="bg-secondColor rounded-r px-2 py-2">
                 <Search className="text-white w-5 h-auto"/>
               </div>
               <div className="relative mx-4">

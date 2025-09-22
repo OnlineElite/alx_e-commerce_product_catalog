@@ -69,39 +69,61 @@ Create these folders and files in the root directory:
 
 ### visual folder tree diagram
 
-my-nextjs-project/
-│
-├── components/
-│ ├── common/ # Reusable UI components
-| | ├── Button.tsx
-| | ├──
-| | └──
-| |
-│ └── layouts/ # Layout components (Header, Footer, etc.)
-| ├── Header.tsx
-| ├── Footer.tsx
-| ├── Sidebar.tsx
-| ├── Toolbar.tsx
-| ├── ProductList.tsx
-| └──
-│  
-├── constants/
-│ └── index.ts # Application constants
-│
-├── interfaces/
-│ └── index.ts # TypeScript interfaces
-│
-├── pages/ # Next.js pages or App Router folder
-│ └── index.tsx # Home page
-│
-├── public/
-│ └── assets/images # Images and static assets
-│
-├── styles/
-│ └── globals.css # Tailwind CSS imports
-│
-└── .env.local # Environment variables
-
+AlX_E-COMMERCE_PRODUCT_CATALOG/
+├── components/                 # Reusable React components
+│   ├── common/                # Shared components used across the application
+│   │   ├── AuthForm.tsx       # Authentication form component
+│   │   ├── Button.tsx         # Custom button component
+│   │   └── Card.tsx           # Card layout component for products/content
+│   └── layouts/               # Layout components for page structure
+│       ├── Footer.tsx         # Site footer component
+│       ├── Header.tsx         # Site header/navigation component
+│       ├── Layout.tsx         # Main layout wrapper component
+│       ├── ProductList.tsx    # Component for displaying product listings
+│       ├── Sidebar.tsx        # Sidebar navigation component
+│       └── Toolbar.tsx        # Toolbar/action bar component
+├── constants/                 # Application constants and configuration
+│   └── index.ts              # Exports all constants
+├── interfaces/               # TypeScript type definitions
+│   └── index.ts              # Exports all interfaces and types
+├── node_modules/             # NPM dependencies (auto-generated)
+├── pages/                    # Next.js pages and API routes
+│   ├── api/                  # API routes directory
+│   │   └── hello.ts          # Example API endpoint
+│   ├── _app.tsx              # Custom App component for global settings
+│   ├── _document.tsx         # Custom Document for HTML structure
+│   └── index.tsx             # Homepage component
+├── public/                   # Static assets served directly
+│   ├── assets/               # Application assets
+│   │   └── images/           # Image files
+│   │       ├── photo1.jpg    # Product/image gallery photo 1
+│   │       ├── photo2.jpg    # Product/image gallery photo 2
+│   │       ├── photo3.jpg    # Product/image gallery photo 3
+│   │       ├── photo4.jpg    # Product/image gallery photo 4
+│   │       ├── photo5.jpg    # Product/image gallery photo 5
+│   │       ├── photo6.jpg    # Product/image gallery photo 6
+│   │       ├── smartwatch.avif # Smartwatch product image
+│   │       └── tShirt.avif   # T-shirt product image
+│   ├── favicon.ico           # Website favicon
+│   ├── file.svg              # File icon SVG
+│   ├── globe.svg             # Globe icon SVG
+│   ├── next.svg              # Next.js logo SVG
+│   ├── vercel.svg            # Vercel platform logo SVG
+│   └── window.svg            # Window icon SVG
+├── styles/                   # Global CSS styles
+│   └── globals.css           # Global styles and Tailwind imports
+├── .env.local                # Local environment variables
+├── .gitignore                # Git ignore rules
+├── eslint.config.mjs         # ESLint configuration
+├── next-env.d.ts             # Next.js TypeScript definitions
+├── next.config.ts            # Next.js configuration
+├── package-lock.json         # Exact dependency versions
+├── package.json              # Project dependencies and scripts
+├── postcss.config.js         # PostCSS configuration
+├── postcss.config.mjs        # PostCSS configuration (ES modules)
+├── README.md                 # Project documentation
+├── tailwind.config.js        # Tailwind CSS configuration
+└── tsconfig.json             # TypeScript configuration
 ## 8. Install Icons lebrary :
 
 Installation :
