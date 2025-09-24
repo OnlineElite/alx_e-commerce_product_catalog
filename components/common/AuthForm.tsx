@@ -1,20 +1,43 @@
-import Button from "@/components/common/Button"
-import { X } from "lucide-react"
-import { AuthFormProps } from "@/interfaces"
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "@/components/common/Button";
+import { X } from "lucide-react";
+import { AuthFormProps, RegisterCredentials, LoginCredentials } from "@/interfaces";
+import { registerUser, loginUser, clearError } from "@/store/slices/authSlice";
+import type { RootState, AppDispatch } from "@/store/index"
 
 const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector((state: RootState) => state.auth);
 
-  const handleSubmit = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (mode === "register") {
-      console.log("Account created successfully")
+      const credentials: RegisterCredentials = {
+        username: fullName,
+        email,
+        password,
+        passwordConfirm: confirmPassword,
+        acceptTerms,
+      };
+      dispatch(registerUser(credentials));
     } else {
-      console.log("Logged in successfully")
+      const credentials: LoginCredentials = { email, password };
+      dispatch(loginUser(credentials));
     }
-  }
+  };
+
+  if(loading) return <p>Loading</p>
 
   return (
-    <form className="relative rounded-lg bg-white p-6">
-      <span className="absolute top-2 right-2 text-gray-500" onClick={handleClose}>
+    <form onSubmit={handleSubmit} className="relative rounded-lg bg-white p-6">
+      <span className="absolute top-2 right-2 text-gray-500 cursor-pointer" onClick={handleClose}>
         <X size={20} />
       </span>
 
@@ -32,46 +55,63 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
       <div className="flex flex-col justify-between w-full gap-5 mt-4">
         {mode === "register" && (
           <div className="w-full flex flex-col justify-between gap-1">
-            <label className="font-">Full Name</label>
+            <label>Full Name</label>
             <input
               type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               placeholder="Enter your full name"
               className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+              required
             />
           </div>
         )}
 
         <div className="w-full flex flex-col justify-between gap-1">
-          <label className="font-">Email Address</label>
+          <label>Email Address</label>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+            required
           />
         </div>
 
         <div className="w-full flex flex-col justify-between gap-1">
-          <label className="font-">Password</label>
+          <label>Password</label>
           <input
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder={mode === "register" ? "Create a password" : "Enter your password"}
             className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+            required
           />
         </div>
 
         {mode === "register" && (
           <>
             <div className="w-full flex flex-col justify-between gap-1">
-              <label className="font-">Confirm Password</label>
+              <label>Confirm Password</label>
               <input
                 type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your password"
                 className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+                required
               />
             </div>
 
-            <div className="w-full flex flex-row gap-1">
-              <input type="checkbox" />
+            <div className="w-full flex flex-row gap-1 items-center">
+              <input
+                type="checkbox"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                required
+              />
               <label className="text-sm text-gray-700">
                 I agree to the Terms & Conditions
               </label>
@@ -79,28 +119,40 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
           </>
         )}
 
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+
         <Button
+          
           backColor="secondColor"
           title={mode === "register" ? "Create Account" : "Login"}
-          action={handleSubmit}
         />
 
         <div className="flex flex-row items-center justify-center gap-1">
           {mode === "register" ? (
             <>
               <span className="text-gray-400 text-sm">Already have an account?</span>
-              <span className="text-mainColor font-bold cursor-pointer" >Login</span>
+              <span
+                className="text-mainColor font-bold cursor-pointer"
+                onClick={() => dispatch(clearError())}
+              >
+                Login
+              </span>
             </>
           ) : (
             <>
               <span className="text-gray-400 text-sm">Don’t have an account?</span>
-              <span className="text-mainColor font-bold cursor-pointer">Register</span>
+              <span
+                className="text-mainColor font-bold cursor-pointer"
+                onClick={() => dispatch(clearError())}
+              >
+                Register
+              </span>
             </>
           )}
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default AuthForm
+export default AuthForm;

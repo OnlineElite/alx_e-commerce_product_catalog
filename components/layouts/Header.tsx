@@ -1,11 +1,35 @@
 import { ShoppingCart, ShoppingBag, Search } from "lucide-react";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import AuthForm from "@/components/common/AuthForm"
+import { RootState, AppDispatch } from "@/store/index"
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/store/slices/authSlice"
+import { fetchCurrentUser } from '@/store/slices/userSlice';
 
 const Header: React.FC = () => {
 
   const [showLoginForm, setShowLoginForm] = useState(false)
   const [showRegisterForm, setShowRegisterForm] = useState(false)
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.user);
+  
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setShowLoginForm(false);
+      setShowRegisterForm(false);
+    }
+  }, [isAuthenticated]);
+
+  const handleLogOut = () => {
+    dispatch(logout())
+    console.log("new status : ", isAuthenticated)
+  }
 
 
   return (
@@ -37,10 +61,26 @@ const Header: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="flex flex-row items-center justify-between gap-2">
+            {isAuthenticated? <div>
+              {/* <button className="text-white px-4 border border-white rounded  py-1" onClick={handleLogOut} >Login Out</button> */}
+              <div className="flex flex-row gap-2">
+                <span className=" w-10 h-10 flex items-center justify-center font-bold rounded-full bg-secondColor p-2  text-white text-lg"> JB </span>
+                <select className="bg-transparent  p-2">
+                  <option value="">
+                    welcome {user.username}
+                  </option>
+                  <option value="">
+                    <button className="text-white px-4 border border-white rounded  py-1" onClick={handleLogOut} >Login Out</button>
+                  </option>
+                </select>
+              </div> 
+            </div>
+            
+            : <div className="flex flex-row items-center justify-between gap-2">
               <button className="text-white px-4 border border-white rounded  py-1" onClick={()=> setShowLoginForm(true)}>Login</button>
               <button className="text-white px-4 bg-secondColor rounded  py-1" onClick={()=> setShowRegisterForm(true)}>Register</button>
-            </div>
+            </div> 
+            }
           </div>
           {/* Navigation bar */}
           <div className="mx-auto order-2 md:order-2 lg:order-1 w-full md:w-auto">

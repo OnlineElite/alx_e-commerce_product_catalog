@@ -7,24 +7,43 @@ export interface LayoutProps {
 export interface ButtonProps {
     backColor? : string;
     title : string;
-    action : ()=> void;
+    action? : ()=> void;
     icon? : ReactNode;
+    type? : string;
 }
 
-/* ------------- priduct interface-------------*/
+/* ------------- product interface-------------*/
+
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface ProductImage {
+  image: string;
+  altText: string;
+  isPrimary: boolean;
+}
+
 export interface ProductProps {
-    id : number;
-    title : string;
-    description : string;
-    categorie : string;
-    price : string;
-    variants : string[];
-    image : string;
+  id: string;
+  name: string;
+  slug?: string;
+  price: string;
+  compareAtPrice?: string | null;
+  discountPercentage?: number;
+  featuredImage?: string;
+  category: Category;
+  images: ProductImage[];
 }
 
 export interface ProductState {
     items : ProductProps[];
     loading : boolean;
+}
+
+export interface GetAllProductsResponse {
+  products: ProductProps[];
 }
 
 /* ------------- user interface-------------*/
@@ -33,16 +52,58 @@ export interface AuthFormProps {
     mode: "login" | "register";
 }
 
-export interface UserState {
-    id : number;
-    name : string;
-    email :  string;
+export interface User {
+  id: number;
+  username: string; // you can store username or firstName + lastName
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  emailVerified?: boolean;
 }
 
+
+
 export interface AuthState {
-    user : UserState | null;
-    isAuthenticated : boolean;
-    loading : boolean;
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  acceptTerms: boolean;
+}
+
+export interface LoginResponse {
+  ok: boolean;
+  access: string;
+  refresh: string;
+  errors: string[];
+}
+
+export interface RegisterResponse {
+  ok: boolean;
+  errors: string[];
+  user: User | null;
+}
+
+export interface RegisterUserResponse {
+  registerUser: RegisterResponse;
+}
+
+export interface LoginUserResponse {
+  login: LoginResponse;
 }
 
 /* ------------- cart interface-------------*/

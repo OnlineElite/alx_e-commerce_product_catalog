@@ -24,3 +24,30 @@ export default function Home() {
   )
 }
 
+{/* 
+const ShopPage: React.FC = () => {
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [priceRange, setPriceRange] = useState<number>(1000);
+    const [sortOption, setSortOption] = useState<string>("Sort by: Default");
+
+    return (
+        <div className="grid grid-cols-3 gap-4">
+            <Sidebar
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+            />
+            <div className="col-span-2">
+                <Toolbar sortOption={sortOption} setSortOption={setSortOption} />
+                <ProductList
+                    selectedCategories={selectedCategories}
+                    priceRange={priceRange}
+                    sortOption={sortOption}
+                />
+            </div>
+        </div>
+    );
+};
+
+ */}

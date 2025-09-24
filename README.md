@@ -124,7 +124,8 @@ Create these folders and files in the root directory:
     ├── README.md                 # Project documentation
     ├── tailwind.config.js        # Tailwind CSS configuration
     └── tsconfig.json             # TypeScript configuration
-    ## Install Icons lebrary :
+    
+## Install Icons lebrary :
 
 Installation :
 `npm install lucide-react`

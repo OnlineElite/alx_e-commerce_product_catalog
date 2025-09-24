@@ -21,3 +21,29 @@ const Toolbar: React.FC = () => {
 };
 
 export default Toolbar;
+
+{/*
+interface ToolbarProps {
+    sortOption: string;
+    setSortOption: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Toolbar: React.FC<ToolbarProps> = ({ sortOption, setSortOption }) => {
+    return (
+        <div className="...">
+            <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="border border-gray-300 rounded p-1"
+            >
+                {sortingOptions.map((option, index) => (
+                    <option value={option} key={index}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+};
+
+*/}
