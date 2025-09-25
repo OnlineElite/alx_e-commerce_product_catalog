@@ -30,6 +30,7 @@ export interface ProductProps {
   name: string;
   slug?: string;
   price: string;
+  description? : string;
   compareAtPrice?: string | null;
   discountPercentage?: number;
   featuredImage?: string;

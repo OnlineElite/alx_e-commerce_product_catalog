@@ -1,18 +1,105 @@
-import { categories, productVariants } from "@/constants";
+import { categories } from "@/constants"
+import { useState, useEffect } from "react"
+import Button from "@/components/common/Button"
+import { useDispatch, useSelector } from "react-redux"
+import { setCategories, setPriceRange, clearAllFilters } from "@/store/slices/filterSlice"
+import type { RootState } from "@/store/index"
+
+const Sidebar: React.FC = () => {
+  const dispatch = useDispatch()
+  const { selectedCategories, priceRange } = useSelector((state: RootState) => state.filters)
+  const [localPriceRange, setLocalPriceRange] = useState(priceRange[1])
+
+  // Sync local price range with Redux state
+  useEffect(() => {
+    setLocalPriceRange(priceRange[1])
+  }, [priceRange])
+
+  const handleCategoryChange = (category: string) => {
+    const newCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter(c => c !== category)
+      : [...selectedCategories, category]
+    dispatch(setCategories(newCategories))
+  }
+
+  const handlePriceRangeChange = (value: number) => {
+    setLocalPriceRange(value)
+  }
+
+  const handleApplyFilters = () => {
+    dispatch(setPriceRange([0, localPriceRange]))
+  }
+
+  const handleClearFilters = () => {
+    dispatch(clearAllFilters())
+    setLocalPriceRange(1000)
+  }
+
+  return (
+    <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:row-span-3 md:col-span-1 lg:row-span-3 lg:col-span-1">
+      <div className="my-6 px-4">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-lg font-bold">Categories</h3>
+          <button 
+            onClick={handleClearFilters}
+            className="text-sm text-blue-600 hover:text-blue-800"
+          >
+            Clear All
+          </button>
+        </div>
+        <div className="flex flex-row sm:flex-row md:flex-col lg:flex-col gap-2 flex-wrap">
+          {categories.map((category, index) => (
+            <span key={index} className="flex flex-row items-center gap-2">
+              <input 
+                type="checkbox" 
+                className="scale-125"
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleCategoryChange(category)}
+              />
+              <p className="text-sm"> {category} </p>
+            </span>
+          ))}
+        </div>
+        <hr className="border-t border-gray-200 w_full mx-auto my-4" />
+      </div>
+      <div className="my-6 px-4">
+        <h3 className="text-lg font-bold mb-3">Price Range</h3>
+        <div className="flex flex-col gap-2">
+          <input
+            type="range"
+            id="price"
+            min={0}
+            max={1000}
+            step={10}
+            value={localPriceRange}
+            onChange={(e) => handlePriceRangeChange(Number(e.target.value))}
+            className="w-full"
+          />
+          <span className="flex flex-row items-center justify-between text-sm text-gray-500">
+            <p>$0</p>
+            <p>${localPriceRange}</p>
+          </span>
+        </div>
+        <hr className="border-t border-gray-200 w_full mx-auto my-4" />
+      </div>
+      <div className="my-6 px-4 flex flex-col gap-2">
+        <Button backColor="secondColor" title="Apply Filters" action={handleApplyFilters} />
+        <Button backColor="gray" title="Clear Filters" action={handleClearFilters} />
+      </div>
+    </div>
+  )
+}
+
+export default Sidebar
+
+/* import { categories, productVariants } from "@/constants";
 import { useState } from "react"
 import Button from "@/components/common/Button"
 
 const Sidebar: React.FC = () => {
   const [priceRange, setPriceRange] = useState(1000);
 
-/*   const colorClasses: Record<string, string> = {
-    red: "bg-red-500",
-    blue: "bg-blue-500",
-    green: "bg-green-500",
-    black: "bg-black",
-    yellow: "bg-yellow-500",
-    gray: "bg-gray-500",
-  }; */
+
 
   const handlePriceRange = (value: string) => {
     setPriceRange(Number(value));
@@ -55,15 +142,7 @@ const Sidebar: React.FC = () => {
         </div>
         <hr className="border-t border-gray-200 w_full mx-auto my-4" />
       </div>
-      {/* <div className="my-6 px-4">
-        <h3 className="text-lg font-bold mb-3">Color</h3>
-        <div className="flex flex-row  gap-2 flex-wrap">
-          {productVariants.map((color, index) => (           
-            <span key={index} className={`${colorClasses[color]} w-5 h-5 rounded-full`}> </span>         
-          ))}
-        </div>
-        <hr className="border-t border-gray-200 w_full mx-auto my-4" />
-      </div> */}
+      
       <div className="my-6 px-4 ">
         <Button backColor="secondColor" title="Apply Filters" action={handleApplyFilters} />
       </div>
@@ -71,51 +150,5 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebar; */
 
-{/* 
-// Add props
-interface SidebarProps {
-    selectedCategories: string[];
-    setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
-    priceRange: number;
-    setPriceRange: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCategories, priceRange, setPriceRange }) => {
-
-    const handleCategoryChange = (category: string) => {
-        if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter(c => c !== category));
-        } else {
-            setSelectedCategories([...selectedCategories, category]);
-        }
-    };
-
-    return (
-        <div className="..."> 
-            {categories.map((category, index) => (
-                <span key={index} className="flex flex-row items-center gap-2">
-                    <input
-                        type="checkbox"
-                        className="scale-125"
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => handleCategoryChange(category)}
-                    />
-                    <p className="text-sm">{category}</p>
-                </span>
-            ))}
-
-            <input
-                type="range"
-                min={0}
-                max={1000}
-                step={1}
-                value={priceRange}
-                onChange={(e) => setPriceRange(Number(e.target.value))}
-            />
-        </div>
-    );
-};
-
-*/}
