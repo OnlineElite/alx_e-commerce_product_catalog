@@ -1,6 +1,7 @@
 //import { products } from "@/constants"
 import Card from "@/components/common/Card"
 import { ProductProps } from "@/interfaces"
+import { LoaderCircle } from "lucide-react";
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts } from "@/store/slices/productSlice"
@@ -16,8 +17,13 @@ const ProductList: React.FC = () => {
         dispatch(fetchProducts());
     }, [dispatch])
 
-    if(loading) return <p>Loading</p>
-
+    if(loading) 
+    return (
+        <div className="absolute top-0 left-0 w-[100vw] h-[100vh] flex items-center justify-center bg-white/30 z-150">
+        <p className="z-100 absolute text-black flex item-center justify-center"><LoaderCircle size={35} className="text-mainColor animate-spin"/></p>
+        </div>
+    )
+    
     return(
         <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:col-span-2 md:row-span-1 lg:col-span-3 ">
             <div className="bg-backColor w-full h-full grid grid-cols sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -25,7 +31,6 @@ const ProductList: React.FC = () => {
                     <Card key={id} id={id} name={name}  category={category} price={price} images={images} />
                 ))}
             </div>
-            
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@/components/common/Button";
-import { X } from "lucide-react";
+import { X, LoaderCircle } from "lucide-react";
 import { AuthFormProps, RegisterCredentials, LoginCredentials } from "@/interfaces";
 import { registerUser, loginUser, clearError } from "@/store/slices/authSlice";
 import type { RootState, AppDispatch } from "@/store/index"
@@ -33,7 +33,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
     }
   };
 
-  if(loading) return <p>Loading</p>
+  if(loading) 
+  return (
+    <div className="absolute top-0 left-0 w-[100vw] h-[100vh] flex items-center justify-center bg-white/30 z-150">
+      <p className="z-100 absolute text-black flex item-center justify-center"><LoaderCircle size={35} className="text-mainColor animate-spin"/></p>
+    </div>
+  )
 
   return (
     <form onSubmit={handleSubmit} className="relative rounded-lg bg-white p-6">

@@ -1,36 +1,61 @@
-import { ShoppingCart, ShoppingBag, Search } from "lucide-react";
+import { ShoppingCart, ShoppingBag, Search, User as UserIcon } from "lucide-react";
 import { useState, useEffect } from "react"
 import AuthForm from "@/components/common/AuthForm"
 import { RootState, AppDispatch } from "@/store/index"
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/store/slices/authSlice"
-import { fetchCurrentUser } from '@/store/slices/userSlice';
+import { logout, checkAuth } from "@/store/slices/authSlice"
+import { fetchCurrentUser, clearUser } from '@/store/slices/userSlice';
 
 const Header: React.FC = () => {
-
   const [showLoginForm, setShowLoginForm] = useState(false)
   const [showRegisterForm, setShowRegisterForm] = useState(false)
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user: authUser } = useSelector((state: RootState) => state.auth);
   const user = useSelector((state: RootState) => state.user);
   
+  // Check authentication status on component mount
   useEffect(() => {
-    dispatch(fetchCurrentUser());
+    dispatch(checkAuth());
   }, [dispatch]);
 
+  // Fetch current user when authentication status changes
   useEffect(() => {
     if (isAuthenticated) {
+      dispatch(fetchCurrentUser());
       setShowLoginForm(false);
       setShowRegisterForm(false);
+    } else {
+      // Clear user data when not authenticated
+      dispatch(clearUser());
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const handleLogOut = () => {
-    dispatch(logout())
-    console.log("new status : ", isAuthenticated)
+    dispatch(logout());
+    dispatch(clearUser());
   }
 
+  // Get display name - prioritize user slice, fallback to auth user
+  const getDisplayName = () => {
+    if (user.username) return user.username;
+    if (authUser?.username) return authUser.username;
+    if (user.firstName || user.lastName) return `${user.firstName} ${user.lastName}`.trim();
+    if (authUser?.firstName || authUser?.lastName) return `${authUser.firstName} ${authUser.lastName}`.trim();
+    return 'User';
+  }
+
+  // Get initials for avatar
+  const getInitials = () => {
+    const name = getDisplayName();
+    if (name === 'User') return 'U';
+    
+    return name
+      .split(' ')
+      .map(part => part.charAt(0).toUpperCase())
+      .join('')
+      .slice(0, 2);
+  }
 
   return (
     <header className="bg-mainColor shadow-md sticky top-0  px-2 py-4 z-50">
@@ -61,39 +86,56 @@ const Header: React.FC = () => {
                 </span>
               </div>
             </div>
-            {isAuthenticated? <div>
-              {/* <button className="text-white px-4 border border-white rounded  py-1" onClick={handleLogOut} >Login Out</button> */}
-              <div className="flex flex-row gap-2">
-                <span className=" w-10 h-10 flex items-center justify-center font-bold rounded-full bg-secondColor p-2  text-white text-lg"> JB </span>
-                <select className="bg-transparent  p-2">
-                  <option value="">
-                    welcome {user.username}
-                  </option>
-                  <option value="">
-                    <button className="text-white px-4 border border-white rounded  py-1" onClick={handleLogOut} >Login Out</button>
-                  </option>
-                </select>
-              </div> 
-            </div>
             
-            : <div className="flex flex-row items-center justify-between gap-2">
-              <button className="text-white px-4 border border-white rounded  py-1" onClick={()=> setShowLoginForm(true)}>Login</button>
-              <button className="text-white px-4 bg-secondColor rounded  py-1" onClick={()=> setShowRegisterForm(true)}>Register</button>
-            </div> 
-            }
+            {isAuthenticated ? (
+              <div className="flex flex-row gap-2 items-center">
+                <div className="flex items-center gap-2">
+                  <span className="w-10 h-10 flex items-center justify-center font-bold rounded-full bg-secondColor p-2 text-white text-lg">
+                    {getInitials()}
+                  </span>
+                  <div className="hidden sm:block">
+                    <p className="text-white text-xs">{getDisplayName()}</p>
+                  </div>
+                </div>
+                <button 
+                  className="text-white px-4 border border-white rounded py-1 hover:bg-white hover:text-mainColor transition-colors"
+                  onClick={handleLogOut}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center justify-between gap-2">
+                <button 
+                  className="text-white px-4 border border-white rounded py-1 hover:bg-white hover:text-mainColor transition-colors"
+                  onClick={() => setShowLoginForm(true)}
+                >
+                  Login
+                </button>
+                <button 
+                  className="text-white px-4 bg-secondColor rounded py-1 hover:bg-secondColor/80 transition-colors"
+                  onClick={() => setShowRegisterForm(true)}
+                >
+                  Register
+                </button>
+              </div>
+            )}
           </div>
+          
           {/* Navigation bar */}
           <div className="mx-auto order-2 md:order-2 lg:order-1 w-full md:w-auto">
             <ul className="flex flex-row gap-4 items-center justify-center text-sm text-white font-bold ">
-              <li className="hover:bg-blue-300/20 py-1 px-2 rounded ">Home</li>
-              <li className="hover:bg-blue-300/20 py-1 px-2 rounded ">Products</li>
-              <li className="hover:bg-blue-300/20 py-1 px-2 rounded ">Categories</li>
-              <li className="hover:bg-blue-300/20 py-1 px-2 rounded ">Deals</li>
-              <li className="hover:bg-blue-300/20 py-1 px-2 rounded ">About</li>
+              <li className="hover:bg-blue-300/20 py-1 px-2 rounded cursor-pointer">Home</li>
+              <li className="hover:bg-blue-300/20 py-1 px-2 rounded cursor-pointer">Products</li>
+              <li className="hover:bg-blue-300/20 py-1 px-2 rounded cursor-pointer">Categories</li>
+              <li className="hover:bg-blue-300/20 py-1 px-2 rounded cursor-pointer">Deals</li>
+              <li className="hover:bg-blue-300/20 py-1 px-2 rounded cursor-pointer">About</li>
             </ul>
           </div>
         </div>
       </div>
+      
+      {/* Auth Modals */}
       {showRegisterForm && (
         <div className="absolute top-0 left-0 w-[100vw] h-[100vh] flex items-center justify-center bg-black/50 z-100">
           <AuthForm handleClose={() => setShowRegisterForm(false)} mode="register" />

@@ -61,7 +61,9 @@ export interface User {
   emailVerified?: boolean;
 }
 
-
+export interface UserState extends User {
+  loading: boolean;
+}
 
 export interface AuthState {
   user: User | null;
@@ -87,6 +89,7 @@ export interface RegisterCredentials {
 
 export interface LoginResponse {
   ok: boolean;
+  user?: User;
   access: string;
   refresh: string;
   errors: string[];
@@ -95,7 +98,7 @@ export interface LoginResponse {
 export interface RegisterResponse {
   ok: boolean;
   errors: string[];
-  user: User | null;
+  user?: User | null;
 }
 
 export interface RegisterUserResponse {
