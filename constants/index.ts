@@ -8,15 +8,6 @@ export const sortingOptions = [
     "Name: Z to A",
 ]
 
-export const productVariants = [
-    "red",
-    "blue",
-    "green",
-    "black",
-    "yellow",
-    "gray",
-]
-
 export const products = [
     {
         id : "1",
@@ -98,7 +89,7 @@ export const products = [
         name : "Running Shoes",
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         category : {id : "6", name : "Books"} ,
-        price : "178.99",
+        price : "17.99",
         variants : ["red", "gray"],
         images : [
             {
@@ -128,7 +119,7 @@ export const products = [
         name : "Casual T-Shirt",
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         category : {id : "5", name : "Beauty"} ,
-        price : "178.99",
+        price : "178.66",
         variants : ["red", "gray"],
         images : [
             {
@@ -158,7 +149,7 @@ export const products = [
         name : "Wireless Headphones",
         description : "Premium sound quality with noise cancellation and 30-hour battery life.",
         category : {id : "2", name : "Clothing"} ,
-        price : "178.99",
+        price : "148.99",
         variants : ["red", "gray"],
         images : [
             {
@@ -168,4 +159,95 @@ export const products = [
             }
         ],
     },
+    {
+        id : "11",
+        name : "Running Shoes",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "6", name : "Books"} ,
+        price : "902.17",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo2.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    {
+        id : "12",
+        name : "Casual T-Shirt",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "2", name : "Clothing"} ,
+        price : "520.02",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo3.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    {
+        id : "13",
+        name : "Casual T-Shirt",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "1", name : "Electronics"} ,
+        price : "390.25",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo4.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    {
+        id : "14",
+        name : "Wireless Headphones",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "3", name : "Home"} ,
+        price : "220.86",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo5.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    {
+        id : "15",
+        name : "Running Shoes",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "1", name : "Electronics"} ,
+        price : "780.25",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo3.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    {
+        id : "16",
+        name : "Wireless Headphones",
+        description : "Premium sound quality with noise cancellation and 30-hour battery life.",
+        category : {id : "6", name : "Books"} ,
+        price : "800.86",
+        variants : ["red", "gray"],
+        images : [
+            {
+                image : "/assets/images/photo2.jpg",
+                altText : "nothing",
+                isPrimary : false,
+            }
+        ],
+    },
+    
 ]

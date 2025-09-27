@@ -5,14 +5,6 @@ import { ShoppingCart } from "lucide-react"
 
 const Card: React.FC<ProductProps> = ({id, name, category, price, images}) => {
 
-  /*   const colorClasses: Record<string, string> = {
-        red: "bg-red-500",
-        blue: "bg-blue-500",
-        green: "bg-green-500",
-        black: "bg-black",
-        yellow: "bg-yellow-500",
-        gray: "bg-gray-500",
-    }; */
 
     const handleAddToCart = () => {
         console.log("Product added to cart")
@@ -27,12 +19,7 @@ const Card: React.FC<ProductProps> = ({id, name, category, price, images}) => {
                 <p className="font-bold"> {name} </p>
                 {/* <p className="text-gray-500 text-xs line-clamp-2"> {description} </p> */}
                 <p className="text-xs text-gray-500 bg-gray-400/30 rounded-lg w-fit px-2 py-1"> {category.name} </p>
-                <p className="text-mainColor font-bold"> ${price} </p>
-                {/* <div className="flex flex-row  gap-2 flex-wrap">
-                    {variants.map((color, index) => (           
-                    <span key={index} className={`${colorClasses[color]} w-5 h-5 rounded-full`}> </span>         
-                    ))}
-                </div> */}
+                <p className="text-mainColor font-bold"> ${price} </p>               
                 <Button icon={<ShoppingCart className="text-white mr-1 " />} title="Add to Cart" action={handleAddToCart}/>
             </div>
         </div>
