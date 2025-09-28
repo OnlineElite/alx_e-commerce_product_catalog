@@ -2,7 +2,7 @@
 
 ## 📋 Project Overview
 
-AIX E-Commerce Product Catalog is a modern, responsive e-commerce application built with Next.js, TypeScript, and Tailwind CSS. The application features a dynamic product catalog with advanced filtering, sorting, and pagination capabilities.
+AIX E-Commerce Product Catalog is a modern, responsive e-commerce application built with Next.js, TypeScript, and Tailwind CSS. The application features a dynamic product catalog with advanced filtering, sorting, pagination, and complete authentication system.
 
 ## 🚀 Key Features
 
