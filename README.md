@@ -254,6 +254,11 @@ npm run build
 # Start production server
 npm start
 ```
+### Environment Setup
+Create a `.env.local` file with your environment variables:
+```env
+NEXT_PUBLIC_API_BASE_URL=your_api_url
+```
 
 ## Create a Next.js project:
 
@@ -384,10 +389,5 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
 
-### Environment Setup
-Create a `.env.local` file with your environment variables:
-```env
-NEXT_PUBLIC_API_BASE_URL=your_api_url
-```
 
 **Built with ❤️ using Next.js, TypeScript, and Tailwind CSS**
