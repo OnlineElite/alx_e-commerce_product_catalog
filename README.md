@@ -1,6 +1,8 @@
 # ALX E-commerce Front-end
 
-# Set Up the Project
+## Project Overview
+
+# Project setup
 
 ## Create a Next.js project:
 
@@ -131,17 +133,16 @@ Installation :
 `npm install lucide-react`
 
 Usage:
-import { Home, User } from 'lucide-react';
+    import { Home, User } from 'lucide-react';
 
-export default function Example() {
-return (
-
-<div className="flex space-x-4">
-<Home className="w-6 h-6 text-blue-500" />
-<User className="w-6 h-6 text-green-500" />
-</div>
-);
-}
+    export default function Example() {
+        return (
+            <div className="flex space-x-4">
+                <Home className="w-6 h-6 text-blue-500" />
+                <User className="w-6 h-6 text-green-500" />
+            </div>
+        )
+    }
 
 You can control size and color directly using Tailwind classes.
 Official site: `https://lucide.dev`
@@ -191,6 +192,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## ALX E-commerce Frontend Project
 
 - Project Overview
+- Project set up
 - Table of content
 - Project Structure
 - Tech Stack

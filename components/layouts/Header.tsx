@@ -62,6 +62,7 @@ const Header: React.FC = () => {
     if (authUser?.firstName || authUser?.lastName) return `${authUser.firstName} ${authUser.lastName}`.trim();
     return 'User';
   }
+  //console.log("display name header : ", getDisplayName)
 
   // Get initials for avatar
   const getInitials = () => {
@@ -74,6 +75,8 @@ const Header: React.FC = () => {
       .join('')
       .slice(0, 2);
   }
+
+  //console.log("initial name header : ", getInitials)
 
 
   return (

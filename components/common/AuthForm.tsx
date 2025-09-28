@@ -10,17 +10,49 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector((state: RootState) => state.auth);
 
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear previous errors
+    setPasswordError("");
+    setUsernameError("");
+    
+    // Validate password confirmation for register mode
+    if (mode === "register" && password !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    if (mode === "register") {
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!usernameRegex.test(username)) {
+      setUsernameError("Username can only contain letters, numbers, and underscores");
+      return;
+    }
+    
+    // Optional: Add additional username validation rules
+    if (username.length < 3) {
+      setUsernameError("Username must be at least 3 characters long");
+      return;
+    }
+    
+    if (username.length > 20) {
+      setUsernameError("Username must be less than 20 characters");
+      return;
+    }
+  }
+
     if (mode === "register") {
       const credentials: RegisterCredentials = {
-        username: fullName,
+        username: username,
         email,
         password,
         passwordConfirm: confirmPassword,
@@ -32,6 +64,22 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
       dispatch(loginUser(credentials));
     }
   };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    if (passwordError && password === e.target.value) {
+      setPasswordError("");
+    }
+  };
+
+  // Clear username error when user starts typing
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    if (usernameError) {
+      setUsernameError("");
+    }
+  };
+
 
   if(loading) 
   return (
@@ -60,13 +108,15 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
       <div className="flex flex-col justify-between w-full gap-5 mt-4">
         {mode === "register" && (
           <div className="w-full flex flex-col justify-between gap-1">
-            <label>Full Name</label>
+            <label>Username</label>
             <input
               type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Enter your full name"
-              className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Enter your username"
+              className={`placeholder:text-gray-400 text-sm rounded p-2 border ${
+                usernameError ? "border-red-500" : "border-gray-500/20"
+              }`}
               required
             />
           </div>
@@ -103,9 +153,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
               <input
                 type="password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleConfirmPasswordChange}
                 placeholder="Confirm your password"
-                className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+                className={`placeholder:text-gray-400 text-sm rounded p-2 border ${
+                  passwordError ? "border-red-500" : "border-gray-500/20"
+                }`}
                 required
               />
             </div>

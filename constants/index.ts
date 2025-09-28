@@ -1,4 +1,4 @@
-export const categories = ["Electronics", "Clothing", "Books", "Home", "Sports", "Beauty"]
+export const categories = ["Windows Tablets", "iPad", "Jewelry", "Cardio Equipment", "Smart Lights", "Security", "Cookware", "Small Appliances", "Tops", "Ultrabooks", "Utensils", "Basketball", "Bags", "Boots", "Plants", "Headphones", "Accessories", "Audio", "Laptops", "Smartphones"]
 
 export const sortingOptions = [
     "Sort by: Default",

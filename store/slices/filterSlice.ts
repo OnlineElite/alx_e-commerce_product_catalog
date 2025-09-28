@@ -1,16 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '@/store/index'
-import { ProductProps } from '@/interfaces'
-import { products } from "@/constants"
-
-interface FilterState {
-  selectedCategories: string[]
-  priceRange: [number, number]
-  sortOption: string
-  searchQuery: string
-  filteredAndSortedProducts: ProductProps[]
-  loading: boolean
-}
+import { ProductProps, FilterState } from '@/interfaces'
+//import { products } from "@/constants"
 
 const initialState: FilterState = {
   selectedCategories: [],
@@ -26,30 +17,30 @@ export const applyFilters = createAsyncThunk(
   'filters/applyFilters',
   (_, { getState }) => {
     const state = getState() as RootState
-    //const { items } = state.products // enable items when the end point fixed
+    const { items } = state.products
     const { selectedCategories, priceRange, sortOption, searchQuery } = state.filters
-
+    console.log("items in filterSlice", items)
     // Filtering and sorting logic
-    const filteredAndSortedProducts = products // change products with items when the end point fixed
+    const filteredAndSortedProducts = items 
       .filter(product => {
-        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category.name)
-        const priceMatch = Number(product.price) >= priceRange[0] && Number(product.price) <= priceRange[1]
+        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category_name)
+        const priceMatch = Number(product.price.amount) >= priceRange[0] && Number(product.price.amount) <= priceRange[1]
         const searchMatch = searchQuery === '' 
                           || product.name.toLowerCase().includes(searchQuery.toLowerCase()) 
-                          || (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+                          || (product.short_description && product.short_description.toLowerCase().includes(searchQuery.toLowerCase()))
         
         return categoryMatch && priceMatch && searchMatch
       })
       .sort((a, b) => {
         switch (sortOption) {
-          case "Price: Low to High": return Number(a.price) - Number(b.price)
-          case "Price: High to Low": return Number(b.price) - Number(a.price)
+          case "Price: Low to High": return Number(a.price.amount) - Number(b.price.amount)
+          case "Price: High to Low": return Number(b.price.amount) - Number(a.price.amount)
           case "Name: A to Z": return a.name.localeCompare(b.name)
           case "Name: Z to A": return b.name.localeCompare(a.name)
           default: return 0 
         }
       })
-
+      console.log("filteredAndSortedProducts in filterSlice", filteredAndSortedProducts)
     return filteredAndSortedProducts
   }
 )

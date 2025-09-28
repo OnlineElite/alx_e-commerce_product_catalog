@@ -1,50 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState, LoginCredentials, RegisterCredentials, User, LoginResponse, RegisterResponse, RegisterUserResponse, LoginUserResponse } from '@/interfaces';
-import { GraphQLClient } from 'graphql-request';
+import { AuthState, LoginCredentials, RegisterCredentials, User, LoginResponse, RegisterResponse } from '@/interfaces';
 
-const client = new GraphQLClient('https://project-nexus-backend-q5ai.onrender.com/graphql/');
-
-const REGISTER_MUTATION = `
-  mutation RegisterUser($username: String!, $email: String!, $password: String!, $passwordConfirm: String!, $acceptTerms: Boolean!) {
-    registerUser(
-      username: $username
-      email: $email
-      password: $password
-      passwordConfirm: $passwordConfirm
-      acceptTerms: $acceptTerms
-    ) {
-      ok
-      errors
-      user {
-        id
-        email
-        username
-        firstName
-        lastName
-        emailVerified
-      }
-    }
-  }
-`;
-
-const LOGIN_MUTATION = `
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      ok
-      access
-      refresh
-      errors
-      user {
-        id
-        email
-        username
-        firstName
-        lastName
-        emailVerified
-      }
-    }
-  }
-`;
+const API_BASE_URL = 'https://project-nexus-backend-q5ai.onrender.com/api/v1';
 
 const initialState: AuthState = {
   user: null,
@@ -59,22 +16,50 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (credentials: RegisterCredentials, { rejectWithValue }) => {
     try {
-      const variables = {
+      // Transform the credentials to match your REST API format
+      const requestBody = {
         username: credentials.username,
         email: credentials.email,
         password: credentials.password,
-        passwordConfirm: credentials.passwordConfirm,
-        acceptTerms: credentials.acceptTerms,
+        password_confirm: credentials.passwordConfirm,
+        first_name: credentials.firstName || '',
+        last_name: credentials.lastName || '',
+        phone_number: credentials.phoneNumber || '',
+        address_line_1: credentials.addressLine1 || '',
+        address_line_2: credentials.addressLine2 || '',
+        city: credentials.city || '',
+        state: credentials.state || '',
+        postal_code: credentials.postalCode || '',
+        country: credentials.country || '',
+        accept_terms: credentials.acceptTerms,
       };
 
-      const data = await client.request<RegisterUserResponse>(REGISTER_MUTATION, variables);
-      const result: RegisterResponse = data.registerUser;
-      
-      if (!result.ok) {
-        return rejectWithValue(result.errors?.join(', ') || 'Registration failed');
+      const response = await fetch(`${API_BASE_URL}/accounts/register/`, {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return rejectWithValue(data.detail || data.errors || 'Registration failed');
       }
-      
-      return result;
+      // Adjust this based on your actual API response structure
+      return {
+        ok: true,
+        user: data.user || {
+          id: data.id,
+          email: data.email,
+          username: data.username,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          emailVerified: data.email_verified || false,
+        }
+      };
     } catch (error: unknown) {
       return rejectWithValue(
         (error as Error)?.message || 'Registration failed'
@@ -87,19 +72,40 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const variables = {
+      const requestBody = {
         email: credentials.email,
         password: credentials.password,
       };
 
-      const data = await client.request<LoginUserResponse>(LOGIN_MUTATION, variables);
-      const result: LoginResponse = data.login;
-      
-      if (!result.ok) {
-        return rejectWithValue(result.errors?.join(', ') || 'Login failed');
+      const response = await fetch(`${API_BASE_URL}/accounts/login/`, {
+        method: 'POST',
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return rejectWithValue(data.detail || data.errors || 'Login failed');
       }
-      
-      return result;
+
+      // Adjust this based on your actual API response structure
+      return {
+        ok: true,
+        access: data.access_token || data.access,
+        refresh: data.refresh_token || data.refresh,
+        user: data.user || {
+          id: data.id,
+          email: data.email,
+          username: data.username,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          emailVerified: data.email_verified || false,
+        }
+      };
     } catch (error: unknown) {
       return rejectWithValue(
         (error as Error)?.message || 'Login failed'
@@ -140,7 +146,6 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
     },
 
-    // New action to check authentication status on app load
     checkAuth: (state) => {
       if (typeof window !== 'undefined') {
         const token = localStorage.getItem('accessToken');

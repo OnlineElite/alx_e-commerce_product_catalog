@@ -14,28 +14,37 @@ export interface ButtonProps {
 
 /* ------------- product interface-------------*/
 
-interface Category {
-  id: string;
-  name: string;
+interface Price {
+  amount: string;
+  currency: string;
 }
 
-interface ProductImage {
+/* interface ProductImage {
   image: string;
   altText: string;
   isPrimary: boolean;
+} */
+
+export interface FilterState {
+  selectedCategories: string[]
+  priceRange: [number, number]
+  sortOption: string
+  searchQuery: string
+  filteredAndSortedProducts: ProductProps[]
+  loading: boolean
 }
 
 export interface ProductProps {
   id: string;
   name: string;
   slug?: string;
-  price: string;
-  description? : string;
-  compareAtPrice?: string | null;
-  discountPercentage?: number;
-  featuredImage?: string;
-  category: Category;
-  images: ProductImage[];
+  price: Price;
+  short_description? : string;
+  average_rating? : string;
+  discount_percentage?: number;
+  category_name: string;
+  stock_quantity? : number;
+  //images?: ProductImage[];
 }
 
 export interface ProductState {
@@ -86,6 +95,15 @@ export interface RegisterCredentials {
   password: string;
   passwordConfirm: string;
   acceptTerms: boolean;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
 }
 
 export interface LoginResponse {

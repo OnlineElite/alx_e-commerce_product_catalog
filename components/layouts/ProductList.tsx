@@ -1,5 +1,5 @@
 import Card from "@/components/common/Card"
-import { products } from "@/constants"
+//import { products } from "@/constants"
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts } from "@/store/slices/productSlice"
@@ -13,23 +13,19 @@ const ProductList: React.FC = () => {
     const { selectedCategories, priceRange, sortOption, searchQuery } = useSelector((state: RootState) => state.filters)
     const { filteredAndSortedProducts } = useSelector((state: RootState) => state.filters)
     // Pagination state
-    console.log("filtered products : ", filteredAndSortedProducts)
+    console.log("filtered products in productList: ", filteredAndSortedProducts)
+    console.log("items in productList: ", items)
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12)
 
     // Apply filters whenever relevant state changes
     useEffect(() => {
-        if (products.length > 0 /* items.length > 0 */) { // change products with items when the end point fixed
-            dispatch(applyFilters())
-        }
-    }, [dispatch, products /* items */]) // change products with items when the end point fixed
-
-    // Re-apply filters when filter criteria change
-    useEffect(() => {
-        if (products.length > 0 /* items.length > 0 */) { // change products with items when the end point fixed
-            dispatch(applyFilters())
-        }
-    }, [dispatch, selectedCategories, priceRange, sortOption, searchQuery])
+    if (items.length === 0) {
+        dispatch(fetchProducts())
+    } else {
+        dispatch(applyFilters())
+    }
+}, [dispatch, items, selectedCategories, priceRange, sortOption, searchQuery])
 
     // Pagination calculations
     const totalPages = Math.ceil(filteredAndSortedProducts.length / itemsPerPage)
@@ -42,9 +38,6 @@ const ProductList: React.FC = () => {
         setCurrentPage(1)
     }, [selectedCategories, priceRange, sortOption, searchQuery])
 
-    useEffect(() => {
-        dispatch(fetchProducts())
-    }, [dispatch])
 
     const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPages))
     const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1))
@@ -71,8 +64,8 @@ const ProductList: React.FC = () => {
     const activeStyle = "bg-mainColor text-white border-mainColor"
 
     if (loading) return (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white/30 z-50">
-            <LoaderCircle size={35} className="text-mainColor animate-spin"/>
+        <div className="absolute top-0 left-20 w-full h-full flex items-center justify-center bg-white/30 z-50 ">
+            <LoaderCircle size={35} className="text-mainColor animate-spin"/> <p>Loading...</p>
         </div>
     )
 
@@ -82,8 +75,8 @@ const ProductList: React.FC = () => {
             <div >
                 <div className="bg-backColor w-full h-full p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
                     {currentItems.length > 0 ? (
-                        currentItems.map(({id, name, category, price, images}) => (
-                            <Card key={id} id={id} name={name} category={category} price={price} images={images} />
+                        currentItems.map(({id, name, short_description, category_name, price}) => (
+                            <Card key={id} id={id} name={name} category_name={category_name} price={price} short_description={short_description} />
                         ))
                     ) : (
                         <div className="col-span-full text-center py-8 text-gray-500">
