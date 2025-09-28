@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '@/store/index'
-import { ProductProps, FilterState } from '@/interfaces'
+import { FilterState } from '@/interfaces'
 //import { products } from "@/constants"
 
 const initialState: FilterState = {

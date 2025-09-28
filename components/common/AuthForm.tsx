@@ -40,7 +40,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
       return;
     }
     
-    // Optional: Add additional username validation rules
+    //username validation rules
     if (username.length < 3) {
       setUsernameError("Username must be at least 3 characters long");
       return;

@@ -54,7 +54,7 @@ const Header: React.FC = () => {
     setLocalSearchQuery(e.target.value)
   }
 
-  // Get display name - prioritize user slice, fallback to auth user
+  // Get display name
   const getDisplayName = () => {
     if (user.username) return user.username;
     if (authUser?.username) return authUser.username;
@@ -62,7 +62,6 @@ const Header: React.FC = () => {
     if (authUser?.firstName || authUser?.lastName) return `${authUser.firstName} ${authUser.lastName}`.trim();
     return 'User';
   }
-  //console.log("display name header : ", getDisplayName)
 
   // Get initials for avatar
   const getInitials = () => {
@@ -75,9 +74,6 @@ const Header: React.FC = () => {
       .join('')
       .slice(0, 2);
   }
-
-  //console.log("initial name header : ", getInitials)
-
 
   return (
     <header className="bg-mainColor shadow-md sticky top-0  px-2 py-4 z-50">

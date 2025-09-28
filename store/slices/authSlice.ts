@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState, LoginCredentials, RegisterCredentials, User, LoginResponse, RegisterResponse } from '@/interfaces';
+import { AuthState, LoginCredentials, RegisterCredentials, User } from '@/interfaces';
 
-const API_BASE_URL = 'https://project-nexus-backend-q5ai.onrender.com/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const initialState: AuthState = {
   user: null,
@@ -16,7 +16,7 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (credentials: RegisterCredentials, { rejectWithValue }) => {
     try {
-      // Transform the credentials to match your REST API format
+      // Transform the credentials to match REST API format
       const requestBody = {
         username: credentials.username,
         email: credentials.email,
@@ -48,7 +48,7 @@ export const registerUser = createAsyncThunk(
       if (!response.ok) {
         return rejectWithValue(data.detail || data.errors || 'Registration failed');
       }
-      // Adjust this based on your actual API response structure
+      // Adjust based on actual API response structure
       return {
         ok: true,
         user: data.user || {
@@ -92,7 +92,7 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue(data.detail || data.errors || 'Login failed');
       }
 
-      // Adjust this based on your actual API response structure
+      // Adjust based on actual API response structure
       return {
         ok: true,
         access: data.access_token || data.access,

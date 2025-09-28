@@ -6,12 +6,12 @@ const initialState: ProductState = {
     loading: false,
 }
 
-const API_BASE_URL = 'https://project-nexus-backend-q5ai.onrender.com/api/v1/products';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const fetchProducts = createAsyncThunk(
     "products/fetchProducts", 
     async () => {
-        const response = await fetch(`${API_BASE_URL}/public/products/`, {
+        const response = await fetch(`${API_BASE_URL}/products/public/products/`, {
             method: 'GET',
             headers: {
                 'accept': '*/*',
