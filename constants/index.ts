@@ -1,5 +1,25 @@
-export const categories = ["Windows Tablets", "iPad", "Jewelry", "Cardio Equipment", "Smart Lights", "Security", "Cookware", "Small Appliances", "Tops", "Ultrabooks", "Utensils", "Basketball", "Bags", "Boots", "Plants", "Headphones", "Accessories", "Audio", "Laptops", "Smartphones"]
-
+export const categories = [
+  "Dress Shoes",
+  "iPad",
+  //"Jewelry",
+  "Cardio Equipment",
+  "Smart Lights",
+  "Security",
+  //"Cookware",
+  "Small Appliances",
+  "Tops",
+  "Strength Training",
+  //"Utensils",
+  "Basketball",
+  "Bags",
+  "Boots",
+  "Plants",
+  "Headphones",
+  "Accessories",
+  //"Audio",
+  //"Laptops",
+  //"Smartphones",
+];
 export const sortingOptions = [
     "Sort by: Default",
     "Price: Low to High",
@@ -8,7 +28,7 @@ export const sortingOptions = [
     "Name: Z to A",
 ]
 
-export const products = [
+/* export const products = [
     {
         id : "1",
         name : "Wireless Headphones",
@@ -250,4 +270,4 @@ export const products = [
         ],
     },
     
-]
+] */

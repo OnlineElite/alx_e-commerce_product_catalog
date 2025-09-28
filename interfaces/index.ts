@@ -142,3 +142,25 @@ export interface CartState {
   total: number
   isOpen: boolean
 }
+
+/* ------------- error boundary interface-------------*/
+
+export interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ComponentType<{ error: Error; resetError: () => void }>;
+  onReset?: () => void;
+}
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+export interface AuthFormErrorFallbackProps {
+  error: Error;
+  resetError: () => void;
+}
+export interface ProductListErrorFallbackProps {
+  error: Error;
+  resetError: () => void;
+}

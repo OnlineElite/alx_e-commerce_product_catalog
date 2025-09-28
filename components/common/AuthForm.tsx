@@ -5,6 +5,8 @@ import { X, LoaderCircle } from "lucide-react";
 import { AuthFormProps, RegisterCredentials, LoginCredentials } from "@/interfaces";
 import { registerUser, loginUser, clearError } from "@/store/slices/authSlice";
 import type { RootState, AppDispatch } from "@/store/index"
+import ErrorBoundary from "@/components/errorBoundary/ErrorBoundary"
+import AuthFormErrorFallback from  "@/components/errorBoundary/AuthFormErrorFallback";
 
 const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -89,126 +91,128 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleClose, mode }) => {
   )
 
   return (
-    <form onSubmit={handleSubmit} className="relative rounded-lg bg-white p-6">
-      <span className="absolute top-2 right-2 text-gray-500 cursor-pointer" onClick={handleClose}>
-        <X size={20} />
-      </span>
+    <ErrorBoundary fallback={AuthFormErrorFallback}>
+      <form onSubmit={handleSubmit} className="relative rounded-lg bg-white p-6">
+        <span className="absolute top-2 right-2 text-gray-500 cursor-pointer" onClick={handleClose}>
+          <X size={20} />
+        </span>
 
-      <div className="flex flex-col items-center justify-center my-3">
-        <h3 className="font-bold text-2xl">
-          {mode === "register" ? "Create an Account" : "Login to Your Account"}
-        </h3>
-        <p>
-          {mode === "register"
-            ? "Join us today! Fill in your details to get started"
-            : "Welcome back! Please log in to continue"}
-        </p>
-      </div>
-
-      <div className="flex flex-col justify-between w-full gap-5 mt-4">
-        {mode === "register" && (
-          <div className="w-full flex flex-col justify-between gap-1">
-            <label>Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-              placeholder="Enter your username"
-              className={`placeholder:text-gray-400 text-sm rounded p-2 border ${
-                usernameError ? "border-red-500" : "border-gray-500/20"
-              }`}
-              required
-            />
-          </div>
-        )}
-
-        <div className="w-full flex flex-col justify-between gap-1">
-          <label>Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
-            required
-          />
+        <div className="flex flex-col items-center justify-center my-3">
+          <h3 className="font-bold text-2xl">
+            {mode === "register" ? "Create an Account" : "Login to Your Account"}
+          </h3>
+          <p>
+            {mode === "register"
+              ? "Join us today! Fill in your details to get started"
+              : "Welcome back! Please log in to continue"}
+          </p>
         </div>
 
-        <div className="w-full flex flex-col justify-between gap-1">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={mode === "register" ? "Create a password" : "Enter your password"}
-            className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
-            required
-          />
-        </div>
-
-        {mode === "register" && (
-          <>
+        <div className="flex flex-col justify-between w-full gap-5 mt-4">
+          {mode === "register" && (
             <div className="w-full flex flex-col justify-between gap-1">
-              <label>Confirm Password</label>
+              <label>Username</label>
               <input
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Confirm your password"
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+                placeholder="Enter your username"
                 className={`placeholder:text-gray-400 text-sm rounded p-2 border ${
-                  passwordError ? "border-red-500" : "border-gray-500/20"
+                  usernameError ? "border-red-500" : "border-gray-500/20"
                 }`}
                 required
               />
             </div>
+          )}
 
-            <div className="w-full flex flex-row gap-1 items-center">
-              <input
-                type="checkbox"
-                checked={acceptTerms}
-                onChange={(e) => setAcceptTerms(e.target.checked)}
-                required
-              />
-              <label className="text-sm text-gray-700">
-                I agree to the Terms & Conditions
-              </label>
-            </div>
-          </>
-        )}
+          <div className="w-full flex flex-col justify-between gap-1">
+            <label>Email Address</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+              required
+            />
+          </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+          <div className="w-full flex flex-col justify-between gap-1">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={mode === "register" ? "Create a password" : "Enter your password"}
+              className="placeholder:text-gray-400 text-sm rounded p-2 border border-gray-500/20"
+              required
+            />
+          </div>
 
-        <Button
-          
-          backColor="secondColor"
-          title={mode === "register" ? "Create Account" : "Login"}
-        />
-
-        <div className="flex flex-row items-center justify-center gap-1">
-          {mode === "register" ? (
+          {mode === "register" && (
             <>
-              <span className="text-gray-400 text-sm">Already have an account?</span>
-              <span
-                className="text-mainColor font-bold cursor-pointer"
-                onClick={() => dispatch(clearError())}
-              >
-                Login
-              </span>
-            </>
-          ) : (
-            <>
-              <span className="text-gray-400 text-sm">Don’t have an account?</span>
-              <span
-                className="text-mainColor font-bold cursor-pointer"
-                onClick={() => dispatch(clearError())}
-              >
-                Register
-              </span>
+              <div className="w-full flex flex-col justify-between gap-1">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  placeholder="Confirm your password"
+                  className={`placeholder:text-gray-400 text-sm rounded p-2 border ${
+                    passwordError ? "border-red-500" : "border-gray-500/20"
+                  }`}
+                  required
+                />
+              </div>
+
+              <div className="w-full flex flex-row gap-1 items-center">
+                <input
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  required
+                />
+                <label className="text-sm text-gray-700">
+                  I agree to the Terms & Conditions
+                </label>
+              </div>
             </>
           )}
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <Button
+            
+            backColor="secondColor"
+            title={mode === "register" ? "Create Account" : "Login"}
+          />
+
+          <div className="flex flex-row items-center justify-center gap-1">
+            {mode === "register" ? (
+              <>
+                <span className="text-gray-400 text-sm">Already have an account?</span>
+                <span
+                  className="text-mainColor font-bold cursor-pointer"
+                  onClick={() => dispatch(clearError())}
+                >
+                  Login
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-gray-400 text-sm">Don’t have an account?</span>
+                <span
+                  className="text-mainColor font-bold cursor-pointer"
+                  onClick={() => dispatch(clearError())}
+                >
+                  Register
+                </span>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </ErrorBoundary>
   );
 };
 

@@ -6,12 +6,15 @@ import { fetchProducts } from "@/store/slices/productSlice"
 import { LoaderCircle, ChevronLeft, ChevronRight } from "lucide-react"
 import type { RootState, AppDispatch } from "@/store/index"
 import { applyFilters } from "@/store/slices/filterSlice"
+import ErrorBoundary from "@/components/errorBoundary/ErrorBoundary"
+import ProductListErrorFallback from "@/components/errorBoundary/ProductListErrorFallback"
 
 const ProductList: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
     const { items, loading } = useSelector((state: RootState) => state.products)
     const { selectedCategories, priceRange, sortOption, searchQuery } = useSelector((state: RootState) => state.filters)
     const { filteredAndSortedProducts } = useSelector((state: RootState) => state.filters)
+
     // Pagination state
     console.log("filtered products in productList: ", filteredAndSortedProducts)
     console.log("items in productList: ", items)
@@ -64,73 +67,75 @@ const ProductList: React.FC = () => {
     const activeStyle = "bg-mainColor text-white border-mainColor"
 
     if (loading) return (
-        <div className="absolute top-0 left-20 w-full h-full flex items-center justify-center bg-white/30 z-50 ">
+        <div className="absolute top-0 left-0 pl-24 w-full h-full flex items-center justify-center bg-white/30 z-50 ">
             <LoaderCircle size={35} className="text-mainColor animate-spin"/> <p>Loading...</p>
         </div>
     )
 
     return (
-        <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:col-span-2 md:row-span-1 lg:col-span-3 ">
-            {/* Products Grid */}
-            <div >
-                <div className="bg-backColor w-full h-full p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
-                    {currentItems.length > 0 ? (
-                        currentItems.map(({id, name, short_description, category_name, price}) => (
-                            <Card key={id} id={id} name={name} category_name={category_name} price={price} short_description={short_description} />
-                        ))
-                    ) : (
-                        <div className="col-span-full text-center py-8 text-gray-500">
-                            No products found matching your filters.
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 bg-backColor pb-5">
-                    <p className="text-sm text-gray-600">
-                        Page {currentPage} of {totalPages}
-                    </p>
-                    
-                    <div className="flex items-center gap-2">
-                        <button 
-                            onClick={prevPage}
-                            disabled={currentPage === 1}
-                            className={`${buttonStyle} ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            aria-label="Previous page"
-                        >
-                            <ChevronLeft size={20}/>
-                        </button>
-                        
-                        {getPageNumbers().map((page, index) => (
-                            <button
-                                key={index}
-                                onClick={() => typeof page === 'number' && goToPage(page)}
-                                className={`${buttonStyle} ${
-                                    page === currentPage ? activeStyle : ''
-                                } ${typeof page !== 'number' ? 'cursor-default hover:bg-white' : ''}`}
-                                disabled={typeof page !== 'number'}
-                                aria-current={page === currentPage ? 'page' : undefined}
-                                aria-label={typeof page === 'number' ? `Go to page ${page}` : 'More pages'}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                        
-                        <button 
-                            onClick={nextPage}
-                            disabled={currentPage === totalPages}
-                            className={`${buttonStyle} ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            aria-label="Next page"
-                        >
-                            <ChevronRight size={20}/>
-                        </button>
+        <ErrorBoundary fallback={ProductListErrorFallback}>
+            <div className="bg-white rounded rounded-xl shadow-sm row-span-1 col-span-3 md:col-span-2 md:row-span-1 lg:col-span-3 ">
+                {/* Products Grid */}
+                <div >
+                    <div className="bg-backColor w-full h-full p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
+                        {currentItems.length > 0 ? (
+                            currentItems.map(({id, name, short_description, category_name, price}) => (
+                                <Card key={id} id={id} name={name} category_name={category_name} price={price} short_description={short_description} />
+                            ))
+                        ) : (
+                            <div className="col-span-full text-center py-8 text-gray-500">
+                                No products found matching your filters.
+                            </div>
+                        )}
                     </div>
                 </div>
-            )}
-        </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 bg-backColor pb-5">
+                        <p className="text-sm text-gray-600">
+                            Page {currentPage} of {totalPages}
+                        </p>
+                        
+                        <div className="flex items-center gap-2">
+                            <button 
+                                onClick={prevPage}
+                                disabled={currentPage === 1}
+                                className={`${buttonStyle} ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                aria-label="Previous page"
+                            >
+                                <ChevronLeft size={20}/>
+                            </button>
+                            
+                            {getPageNumbers().map((page, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => typeof page === 'number' && goToPage(page)}
+                                    className={`${buttonStyle} ${
+                                        page === currentPage ? activeStyle : ''
+                                    } ${typeof page !== 'number' ? 'cursor-default hover:bg-white' : ''}`}
+                                    disabled={typeof page !== 'number'}
+                                    aria-current={page === currentPage ? 'page' : undefined}
+                                    aria-label={typeof page === 'number' ? `Go to page ${page}` : 'More pages'}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                            
+                            <button 
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages}
+                                className={`${buttonStyle} ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                aria-label="Next page"
+                            >
+                                <ChevronRight size={20}/>
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </ErrorBoundary>
     )
 }
 
-export default ProductList
+export default ProductList;
